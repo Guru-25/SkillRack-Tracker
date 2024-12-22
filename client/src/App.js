@@ -343,7 +343,7 @@ const App = () => {
         </button>
         {!state.isValidUrl && (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
-            <p style={{maxWidth: 600}}>Login <a href="https://www.skillrack.com/faces/candidate/manageprofile.xhtml" target="_blank" rel="noopener noreferrer"><b>SkillRack</b></a> <IoMdArrowRoundForward size={12}/> Profile <IoMdArrowRoundForward size={12}/> Enter Password <IoMdArrowRoundForward size={12}/> Click "View" <IoMdArrowRoundForward size={12}/> Copy the URL<br /><br />Tutorial: <a href="https://youtu.be/BsrCYe9Ytuw" target="_blank" rel="noopener noreferrer"><b>Watch on YouTube</b></a></p>
+            <p style={{maxWidth: 600}}>Login to <a href="https://www.skillrack.com/faces/candidate/manageprofile.xhtml" target="_blank" rel="noopener noreferrer"><b>SkillRack</b></a> <IoMdArrowRoundForward size={12}/> Profile <IoMdArrowRoundForward size={12}/> Enter Password <IoMdArrowRoundForward size={12}/> Click "View" <IoMdArrowRoundForward size={12}/> Copy the URL<br /><br />Tutorial: <a href="https://youtu.be/BsrCYe9Ytuw" target="_blank" rel="noopener noreferrer"><b>Watch on YouTube</b></a></p>
             <input
               type="text"
               value={state.url}
@@ -505,9 +505,11 @@ const App = () => {
           {/* <ReleaseNote /> */}
           {state.isValidUrl && (
             <>
-              <button onClick={handleLogout} className="logout-button">Logout</button><br /><br /><br /><br />
+              <button onClick={handleLogout} className="logout-button">Logout</button>
+              
             </>
           )}
+          <br /><br /><br /><br />
           made with ❤️ by <a href="https://gururaja.in" target="_blank" rel="noopener noreferrer"><b>someone</b></a>
         </footer>
         <Modal
