@@ -14,6 +14,8 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
+const allowedDomain = "www.skillrack.com";
+
 // Fetch redirected URL
 async function fetchRedirectedUrl(url) {
   return new Promise((resolve, reject) => {
@@ -118,7 +120,6 @@ router.post('/', limiter, async (req, res) => {
   }
 
   let { url } = req.body;
-  const allowedDomain = "www.skillrack.com";
   try {
     const parsedUrl = new URL(url);
     if (allowedDomain !== parsedUrl.hostname) {
@@ -167,6 +168,12 @@ router.get('/refresh', async (req, res) => {
   const url = req.query.url;
   if (!url) {
     return res.status(400).json({ error: 'No URL provided' });
+  }
+
+  const parsedUrl = new URL(url);
+  if (allowedDomain !== parsedUrl.hostname) {
+    console.error(`Invalid URL: ${url}`);
+    return res.status(400).json({ error: 'Invalid URL domain' });
   }
 
   const data = await fetchData(url);
