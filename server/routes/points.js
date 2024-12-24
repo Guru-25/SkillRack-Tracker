@@ -122,6 +122,7 @@ router.post('/', limiter, async (req, res) => {
   try {
     const parsedUrl = new URL(url);
     if (allowedDomain !== parsedUrl.hostname) {
+      console.error(`Invalid URL: ${url}`);
       return res.status(400).json({ error: 'Invalid URL domain' });
     }
 
