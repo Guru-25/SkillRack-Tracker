@@ -136,11 +136,7 @@ router.post('/', async (req, res) => {
           console.log(`${data.name} is stored in DB`);
           await sendLogMessage(logMessage + `[Profile](${data.url})`, process.env.TOPIC1_ID); // Registered
         } else {
-          if (data.id === process.env.ID) {
-            await sendLogMessage(logMessage + "#loggedin", process.env.TOPIC4_ID); // Admin
-          } else {
           await sendLogMessage(logMessage, process.env.TOPIC2_ID); // Logged in
-          }
         }
       }
     }
@@ -163,7 +159,7 @@ router.get('/refresh', async (req, res) => {
   if (data) {
     const logMessage = `\`${data.name} (${data.dept}'${data.year.slice(-2)})\`\n\n\`(${data.codeTutor} x 0) + (${data.codeTrack} x 2) + (${data.codeTest} x 30) + (${data.dt} x 20) + (${data.dc} x 2) = ${data.points} (${data.percentage}%)\`\n\n`;
     if (IS_RECORD_ENABLED) {
-      await sendLogMessage(logMessage, ((data.id) !== process.env.ID) ? process.env.TOPIC3_ID : process.env.TOPIC4_ID); // Refreshed
+      await sendLogMessage(logMessage, process.env.TOPIC3_ID); // Refreshed
     }
     res.json(data);
   } else {
