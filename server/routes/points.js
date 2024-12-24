@@ -118,7 +118,14 @@ router.post('/', limiter, async (req, res) => {
   }
 
   let { url } = req.body;
+  const allowedDomain = "www.skillrack.com";
   try {
+    const parsedUrl = new URL(url);
+    if (allowedDomain !== parsedUrl.hostname) {
+      console.error(`Invalid URL: ${url}`);
+      return res.status(400).json({ error: 'Invalid URL domain' });
+    }
+
     if (!url.includes('resume')) {
       url = await fetchRedirectedUrl(url);
       console.log("fetched");
