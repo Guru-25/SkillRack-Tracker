@@ -118,7 +118,13 @@ router.post('/', limiter, async (req, res) => {
   }
 
   let { url } = req.body;
+  const allowedDomains = ['example.com', 'another-example.com']; // Add your allowed domains here
   try {
+    const parsedUrl = new URL(url);
+    if (!allowedDomains.includes(parsedUrl.hostname)) {
+      return res.status(400).json({ error: 'Invalid URL domain' });
+    }
+
     if (!url.includes('resume')) {
       url = await fetchRedirectedUrl(url);
       console.log("fetched");
