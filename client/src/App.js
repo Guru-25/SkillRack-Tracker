@@ -67,7 +67,7 @@ const getGreeting = (name) => {
     greeting = 'Happy late night';
   }
   
-  return `🎄 ${greeting}, ${capitalizedName} 😊`;
+  return `🎄 Merry Christmas ${capitalizedName} 😊`;
 }
 
 const ReleaseNote = () => {
