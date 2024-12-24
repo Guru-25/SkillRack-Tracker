@@ -4,10 +4,12 @@ const cookieParser = require('cookie-parser');
 const pointsRouter = require('./routes/points');
 // const certificateRouter = require('./routes/certificate');
 require('dotenv').config();
+const lusca = require('lusca');
 
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
+app.use(lusca.csrf());
 
 const IS_RECORD_ENABLED = process.env.IS_RECORD_ENABLED === 'true';
 
