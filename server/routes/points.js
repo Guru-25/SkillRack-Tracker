@@ -6,6 +6,13 @@ const router = express.Router();
 const request = require('request');
 const collegeData = require('../data/collegeCriteria.json');
 require('dotenv').config();
+const rateLimit = require('express-rate-limit');
+
+// Set up rate limiter: maximum of 100 requests per 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
 
 // Fetch redirected URL
 async function fetchRedirectedUrl(url) {
@@ -104,7 +111,7 @@ async function sendLogMessage(message, topic) {
 }
 
 // Handle POST request for tracking points
-router.post('/', async (req, res) => {
+router.post('/', limiter, async (req, res) => {
   // Clear cookie set by server
   if (req.cookies.lastUrl) {
     res.clearCookie('lastUrl');
