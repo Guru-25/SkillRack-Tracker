@@ -141,7 +141,6 @@ router.post('/', limiter, async (req, res) => {
     
     const data = await fetchData(url);
     if (!data) {
-      console.error('Failed to fetch data');
       return res.status(500).json({ error: 'Failed to fetch data' });
     }
 
