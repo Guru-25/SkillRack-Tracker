@@ -70,13 +70,13 @@ const getGreeting = (name) => {
   return `🎄 Merry Christmas ${capitalizedName} 😊`;
 }
 
-const ReleaseNote = () => {
-  return (
-    <div className="release-note">
-      <span className="new-badge">NEW!</span>Plan with AI <b>2.0</b>: Smarter, better — try now!
-    </div>
-  );
-};
+// const ReleaseNote = () => {
+//   return (
+//     <div className="release-note">
+//       <span className="new-badge">NEW!</span>Plan with AI <b>2.0</b>: Smarter, better — try now!
+//     </div>
+//   );
+// };
 
 const App = () => {
   const initialState = {
