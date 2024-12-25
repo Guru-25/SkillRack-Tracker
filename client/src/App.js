@@ -177,7 +177,11 @@ const App = () => {
             handleStateChange({ isValidUrl: true, url: lastUrl });
           }
         } catch (error) {
-          console.error(error);
+          if (error.response && error.response.status === 429) {
+            handleStateChange({ error: 'Too many requests! Please try again after 60 seconds!!', loading: false });
+          } else {
+            console.error(error);
+          }
           Cookies.remove('lastUrl');
         }
       }
@@ -239,7 +243,11 @@ const App = () => {
         handleStateChange({ error: 'Invalid URL! Please watch the above Tutorial video!!', loading: false });
       }
     } catch (error) {
-      handleStateChange({ error: 'Invalid URL! Please watch the above Tutorial video!!', loading: false });
+      if (error.response && error.response.status === 429) {
+        handleStateChange({ error: 'Too many requests! Please try again after 60 seconds!!', loading: false });
+      } else {
+        handleStateChange({ error: 'Invalid URL! Please watch the above Tutorial video!!', loading: false });
+      }
       console.error(error);
     }
     handleStateChange({ loading: false });
@@ -353,22 +361,21 @@ const App = () => {
               style={{ width: '100%', maxWidth: '300px', padding: '10px', boxSizing: 'border-box' }}
             />
             <button type="submit" className="submit-button">Submit</button>
+            {state.error && (
+              <p style={{ 
+                color: 'var(--error-color)',
+              }}>
+                {state.error}
+              </p>
+            )}
           </form>
-        )}
-        {state.error && (
-          <p style={{ 
-            color: 'var(--error-color)',
-            padding: '10px'
-          }}>
-            {state.error}
-          </p>
         )}
         {state.isValidUrl && (
           <>
-            <ReleaseNote />
-            {/* <p>Updated on {state.lastFetched}</p> */}
-            {/* <br style={{ marginBottom: '15px' }} /> */}
-            <br style={{ marginBottom: '6px' }} />
+            {/* <ReleaseNote />
+            <br style={{ marginBottom: '6px' }} /> */}
+            <p>Updated on {state.lastFetched}</p>
+            <br style={{ marginBottom: '15px' }} />
             <h2 className='fix-width'>{getGreeting(state.name)}</h2>
             <div style={{ width: '200px', margin: '50px auto' }}>
               <CircularProgressbar

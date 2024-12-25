@@ -8,6 +8,7 @@ require('dotenv').config();
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
+app.set('trust proxy', 1);
 
 const IS_RECORD_ENABLED = process.env.IS_RECORD_ENABLED === 'true';
 

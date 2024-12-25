@@ -10,8 +10,8 @@ const rateLimit = require('express-rate-limit');
 
 // Set up rate limiter: maximum of 100 requests per 15 minutes
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 7, // limit each IP to 7 requests per windowMs
 });
 
 const allowedDomain = "www.skillrack.com";
@@ -164,7 +164,7 @@ router.post('/', limiter, async (req, res) => {
 });
 
 // Handle GET request for refreshing data
-router.get('/refresh', async (req, res) => {
+router.get('/refresh', limiter, async (req, res) => {
   const url = req.query.url;
   if (!url) {
     return res.status(400).json({ error: 'No URL provided' });
