@@ -15,9 +15,8 @@ const IS_RECORD_ENABLED = process.env.IS_RECORD_ENABLED === 'true';
 if (IS_RECORD_ENABLED) {
   const connectWithRetry = () => {
     mongoose.connect(process.env.MONGODB_URI).then(() => {
-      console.log('MongoDB is connected');
     }).catch(err => {
-      console.log(err);
+      console.error('MongoDB connection error:', err);
       setTimeout(connectWithRetry, 5000); // Retry connection after 5 seconds
     });
   };

@@ -141,7 +141,11 @@ const App = () => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     // Save theme to cookie
-    Cookies.set('theme', theme, { expires: 365 }); // Expires in 1 year
+    Cookies.set('theme', theme, { 
+      expires: 365,
+      sameSite: 'Lax',
+      secure: true
+    }); // Expires in 1 year
   }, [theme]);
 
   useEffect(() => {
@@ -179,8 +183,6 @@ const App = () => {
         } catch (error) {
           if (error.response && error.response.status === 429) {
             handleStateChange({ error: 'Too many requests! Please try again after 60 seconds!!', loading: false });
-          } else {
-            console.error(error);
           }
           Cookies.remove('lastUrl');
         }
@@ -248,7 +250,6 @@ const App = () => {
       } else {
         handleStateChange({ error: 'Invalid URL! Please watch the above Tutorial video!!', loading: false });
       }
-      console.error(error);
     }
     handleStateChange({ loading: false });
   };
@@ -498,13 +499,13 @@ const App = () => {
                   <li><b>Required Points</b>: {state.requiredPoints !== 0 ? state.requiredPoints : <i>Unknown</i>}</li>
                   <li><b>Deadline</b>: {state.deadline !== null ? new Date(state.deadline).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : <i>Unknown</i>}</li>
                 </ul>
-                <p>
+                <div style={{paddingBottom: '16px'}}>
                   <details>
                     <summary style={{textAlign: 'center'}}>&nbsp;Report</summary>
                       <br/>
                       Email <a href="mailto:mail@gururaja.in">mail@gururaja.in</a> with the correct details assigned by your college!
                   </details>
-                </p>
+                </div>
               </div>
               <br /><br />
             </>

@@ -12,6 +12,10 @@ const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 7, // limit each IP to 7 requests per windowMs
+  handler: (request, response) => {
+    console.warn(`Rate limit exceeded for IP: ${request.ip}`);
+    return response.status(429).json({ error: '429 Too Many Requests' });
+  }
 });
 
 const allowedDomain = "www.skillrack.com";
@@ -129,14 +133,15 @@ router.post('/', limiter, async (req, res) => {
 
     if (!url.includes('resume')) {
       url = await fetchRedirectedUrl(url);
-      console.log("fetched");
       if (!url) {
+        console.error('Failed to fetch redirected URL');
         return res.status(500).json({ error: 'Failed to fetch redirected URL' });
       }
     }
     
     const data = await fetchData(url);
     if (!data) {
+      console.error('Failed to fetch data');
       return res.status(500).json({ error: 'Failed to fetch data' });
     }
 
@@ -148,7 +153,6 @@ router.post('/', limiter, async (req, res) => {
         if (!user) {
           user = new User({ id: data.id, name: data.name, dept: data.dept, url: url });
           await user.save();
-          console.log(`${data.name} is stored in DB`);
           await sendLogMessage(logMessage + `[Profile](${data.url})`, process.env.TOPIC1_ID); // Registered
         } else {
           await sendLogMessage(logMessage, process.env.TOPIC2_ID); // Logged in
@@ -167,6 +171,7 @@ router.post('/', limiter, async (req, res) => {
 router.get('/refresh', limiter, async (req, res) => {
   const url = req.query.url;
   if (!url) {
+    console.error('No URL provided');
     return res.status(400).json({ error: 'No URL provided' });
   }
 
