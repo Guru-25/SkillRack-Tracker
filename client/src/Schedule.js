@@ -6,11 +6,10 @@ const Schedule = ({ initialValues }) => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [finishDate, setFinishDate] = useState('');
-  const [manualTarget, setManualTarget] = useState(false);
+  const [finishDate, setFinishDate] = useState(Cookies.get('finishDate') || '');
+  const [manualTarget, setManualTarget] = useState(Cookies.get('manualTarget') === 'true' || false);
   const [targetPoints, setTargetPoints] = useState(Cookies.get('targetPoints') || '');
   const [displayPoints, setDisplayPoints] = useState('');
-  const [manualTargetModified, setManualTargetModified] = useState(false);
   const [trackIncrement, setTrackIncrement] = useState(0);
 
   const [initialValuesState, setInitialValues] = useState({
@@ -29,20 +28,17 @@ const Schedule = ({ initialValues }) => {
         requiredPoints: initialValues.requiredPoints || ''
       });
 
-      if (!manualTargetModified) {
+      if (!manualTarget) {
         setManualTarget(
           (initialValues.requiredPoints === 0 || (initialValues.points >= initialValues.requiredPoints))
         );
-      }
-
-      if (!manualTarget) {
         setTargetPoints(
           (initialValues.requiredPoints > 0 && initialValues.points < initialValues.requiredPoints) ? initialValues.requiredPoints : ''
         );
         setDisplayPoints(initialValues.requiredPoints);
       }
     }
-  }, [initialValues, manualTarget, manualTargetModified]);
+  }, [initialValues, manualTarget]);
 
   useEffect(() => {
     setDisplayPoints(
@@ -92,6 +88,14 @@ const Schedule = ({ initialValues }) => {
       secure: true
     });
   }, [targetPoints]);
+
+  useEffect(() => {
+    Cookies.set('manualTarget', manualTarget, {
+      expires: 365,
+      sameSite: 'Lax',
+      secure: true
+    });
+  }, [manualTarget]);
 
   const calculatePoints = (tracks, dt, dc, codeTest) => {
     return Math.floor(tracks) * 2 + Math.floor(dt) * 20 + Math.floor(dc) * 2 + Math.floor(codeTest) * 30;
@@ -284,7 +288,6 @@ const Schedule = ({ initialValues }) => {
                   checked={manualTarget}
                   onChange={() => {
                     setManualTarget(!manualTarget);
-                    setManualTargetModified(true);
                     if (!manualTarget) {
                       setTargetPoints(initialValuesState.requiredPoints > 0 ? initialValuesState.requiredPoints : '');
                     }

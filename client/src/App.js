@@ -262,6 +262,7 @@ const App = () => {
     setState(initialState);
     Cookies.remove('lastUrl');
     Cookies.remove('finishDate');
+    Cookies.remove('manualTarget');
     Cookies.remove('targetPoints');
   };
 

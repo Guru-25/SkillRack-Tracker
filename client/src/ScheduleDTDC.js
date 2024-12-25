@@ -6,7 +6,7 @@ const ScheduledtDc = ({ initialValues }) => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [finishDate, setFinishDate] = useState('');
+  const [finishDate, setFinishDate] = useState(Cookies.get('finishDate') || '');
   const [trackIncrement, setTrackIncrement] = useState(0);
 
   useEffect(() => {
