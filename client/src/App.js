@@ -261,6 +261,8 @@ const App = () => {
   const confirmLogout = () => {
     setState(initialState);
     Cookies.remove('lastUrl');
+    Cookies.remove('finishDate');
+    Cookies.remove('targetPoints');
   };
 
   const handleGenerateSchedule = () => {
@@ -354,7 +356,7 @@ const App = () => {
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <p style={{maxWidth: 600}}>Login to <a href="https://www.skillrack.com/faces/candidate/manageprofile.xhtml" target="_blank" rel="noopener noreferrer"><b>SkillRack</b></a> <IoMdArrowRoundForward size={12}/> Profile <IoMdArrowRoundForward size={12}/> Enter Password <IoMdArrowRoundForward size={12}/> Click "View" <IoMdArrowRoundForward size={12}/> Copy the URL<br /><br />Tutorial: <a href="https://youtu.be/BsrCYe9Ytuw" target="_blank" rel="noopener noreferrer"><b>Watch on YouTube</b></a></p>
             <input
-              type="text"
+              type="password"
               value={state.url}
               onChange={(e) => handleStateChange({ url: e.target.value.trim() })}
               placeholder="Paste Profile URL"

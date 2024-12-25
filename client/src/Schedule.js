@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Schedule.css';
+import Cookies from 'js-cookie';
 
 const Schedule = ({ initialValues }) => {
   const [schedule, setSchedule] = useState([]);
@@ -7,7 +8,7 @@ const Schedule = ({ initialValues }) => {
   const [error, setError] = useState('');
   const [finishDate, setFinishDate] = useState('');
   const [manualTarget, setManualTarget] = useState(false);
-  const [targetPoints, setTargetPoints] = useState('');
+  const [targetPoints, setTargetPoints] = useState(Cookies.get('targetPoints') || '');
   const [displayPoints, setDisplayPoints] = useState('');
   const [manualTargetModified, setManualTargetModified] = useState(false);
   const [trackIncrement, setTrackIncrement] = useState(0);
@@ -61,6 +62,36 @@ const Schedule = ({ initialValues }) => {
       }
     }
   }, [initialValues.deadline, initialValues.points, initialValues.requiredPoints]);
+
+  useEffect(() => {
+    const savedFinishDate = Cookies.get('finishDate');
+    if (savedFinishDate) {
+      setFinishDate(savedFinishDate);
+    }
+  }, []);
+  
+  useEffect(() => {
+    Cookies.set('finishDate', finishDate, {
+      expires: 365,
+      sameSite: 'Lax',
+      secure: true
+    });
+  }, [finishDate]);
+
+  useEffect(() => {
+    const savedTargetPoints = Cookies.get('targetPoints');
+    if (savedTargetPoints) {
+      setTargetPoints(savedTargetPoints);
+    }
+  }, []);
+  
+  useEffect(() => {
+    Cookies.set('targetPoints', targetPoints, {
+      expires: 365,
+      sameSite: 'Lax',
+      secure: true
+    });
+  }, [targetPoints]);
 
   const calculatePoints = (tracks, dt, dc, codeTest) => {
     return Math.floor(tracks) * 2 + Math.floor(dt) * 20 + Math.floor(dc) * 2 + Math.floor(codeTest) * 30;

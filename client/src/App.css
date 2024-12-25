@@ -53,7 +53,7 @@ form {
   gap: 10px;
 }
 
-input[type="text"] {
+input {
   width: 100%;
   max-width: 300px;
   padding: 10px;
@@ -65,7 +65,7 @@ input[type="text"] {
   color: var(--text-color);
 }
 
-input[type="text"]:focus {
+input:focus {
   border-color: var(--input-focus);
   outline: none;
 }

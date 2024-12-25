@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Schedule.css';
+import Cookies from 'js-cookie';
 
 const ScheduledtDc = ({ initialValues }) => {
   const [schedule, setSchedule] = useState([]);
@@ -13,6 +14,21 @@ const ScheduledtDc = ({ initialValues }) => {
       setInitialValues(initialValues);
     }
   }, [initialValues]);
+
+  useEffect(() => {
+    const savedFinishDate = Cookies.get('finishDate');
+    if (savedFinishDate) {
+      setFinishDate(savedFinishDate);
+    }
+  }, []);
+  
+  useEffect(() => {
+    Cookies.set('finishDate', finishDate, {
+      expires: 365,
+      sameSite: 'Lax',
+      secure: true
+    });
+  }, [finishDate]);
 
   const [initialValuesState, setInitialValues] = useState({
     codeTrack: '',
