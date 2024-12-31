@@ -48,26 +48,26 @@ const getName = (name) => {
 }
 
 const getGreeting = (name) => {
-  const date = new Date().toLocaleString('en-GB', { 
-    timeZone: 'Asia/Kolkata',
-    hour12: false
-  });
-  const hour = parseInt(date.split(',')[1].split(':')[0]);
+  // const date = new Date().toLocaleString('en-GB', { 
+  //   timeZone: 'Asia/Kolkata',
+  //   hour12: false
+  // });
+  // const hour = parseInt(date.split(',')[1].split(':')[0]);
   
   const capitalizedName = getName(name);
   
-  let greeting = '';
-  if (hour >= 6 && hour < 12) {
-    greeting = 'Good morning';
-  } else if (hour >= 12 && hour < 17) {
-    greeting = 'Good afternoon';
-  } else if (hour >= 17 && hour < 20) {
-    greeting = 'Good evening';
-  } else {
-    greeting = 'Happy late night';
-  }
+  // let greeting = '';
+  // if (hour >= 6 && hour < 12) {
+  //   greeting = 'Good morning';
+  // } else if (hour >= 12 && hour < 17) {
+  //   greeting = 'Good afternoon';
+  // } else if (hour >= 17 && hour < 20) {
+  //   greeting = 'Good evening';
+  // } else {
+  //   greeting = 'Happy late night';
+  // }
   
-  return `🎁 ${greeting} ${capitalizedName} 😊`;
+  return `🎊 Happy New Year ${capitalizedName} 😊`;
 }
 
 // const ReleaseNote = () => {
