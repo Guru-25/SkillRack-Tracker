@@ -152,7 +152,7 @@ router.post('/', limiter, async (req, res) => {
         if (!user) {
           user = new User({ id: data.id, name: data.name, dept: data.dept, url: url });
           await user.save();
-          await sendLogMessage(logMessage + `[Profile](${data.url})`, process.env.TOPIC1_ID); // Registered
+          await sendLogMessage(logMessage + `\`${data.college}\`\n\n` + `[Profile](${data.url})`, process.env.TOPIC1_ID); // Registered
         } else {
           await sendLogMessage(logMessage, process.env.TOPIC2_ID); // Logged in
         }

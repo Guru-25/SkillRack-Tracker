@@ -522,6 +522,7 @@ const App = () => {
           )}
           <br /><br /><br /><br />
           made with ❤️ by <a href="https://gururaja.in" target="_blank" rel="noopener noreferrer"><b>someone</b></a>
+          <br /><br /><br />An <a href="https://github.com/Guru-25/SkillRack-Tracker" target="_blank" rel="noopener noreferrer"><b>Initiative</b></a> 🚀 from TCE IT
         </footer>
         <Modal
           show={state.showLogoutModal}
