@@ -87,9 +87,9 @@ async function fetchData(url) {
     const date = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true });
     const lastFetched = date.split(',')[1].trim();
 
-    console.log({ id, name, dept, year, college, codeTutor, codeTrack, codeTest, dt, dc, points, requiredPoints, deadline, percentage, lastFetched, url}); // Log the parsed values
+    console.log({ id, name, dept, year, college, codeTutor, codeTrack, dc, dt, codeTest, points, requiredPoints, deadline, percentage, lastFetched, url}); // Log the parsed values
 
-    return { id, name, dept, year, college, codeTutor, codeTrack, codeTest, dt, dc, points, requiredPoints, deadline, percentage, lastFetched, url};
+    return { id, name, dept, year, college, codeTutor, codeTrack, dc, dt, codeTest, points, requiredPoints, deadline, percentage, lastFetched, url};
   } catch (error) {
     console.error(`Invalid URL: ${url}`);
     return null;
