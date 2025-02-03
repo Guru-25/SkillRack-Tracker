@@ -147,12 +147,12 @@ router.post('/', limiter, async (req, res) => {
     if (IS_RECORD_ENABLED) {
       // Perform database operations before sending response
       let user = await User.findOne({ id: { $eq: data.id } });
-      const logMessage = `\`${data.name} (${data.dept}'${data.year.slice(-2)})\`\n\n\`(${data.codeTutor} x 0) + (${data.codeTrack} x 2) + (${data.codeTest} x 30) + (${data.dt} x 20) + (${data.dc} x 2) = ${data.points} (${data.percentage}%)\`\n\n`;
+      const logMessage = `\`${data.name} (${data.dept}'${data.year.slice(-2)})\`\n\n\`${data.college}\`\n\n\`(${data.codeTutor} x 0) + (${data.codeTrack} x 2) + (${data.codeTest} x 30) + (${data.dt} x 20) + (${data.dc} x 2) = ${data.points} (${data.percentage}%)\`\n\n` + `[Profile](${data.url})`;
       if (data.name !== '') {
         if (!user) {
           user = new User({ id: data.id, name: data.name, dept: data.dept, url: url });
           await user.save();
-          await sendLogMessage(logMessage + `\`${data.college}\`\n\n` + `[Profile](${data.url})`, process.env.TOPIC1_ID); // Registered
+          await sendLogMessage(logMessage, process.env.TOPIC1_ID); // Registered
         } else {
           await sendLogMessage(logMessage, process.env.TOPIC2_ID); // Logged in
         }
@@ -182,7 +182,7 @@ router.get('/refresh', limiter, async (req, res) => {
 
   const data = await fetchData(url);
   if (data) {
-    const logMessage = `\`${data.name} (${data.dept}'${data.year.slice(-2)})\`\n\n\`(${data.codeTutor} x 0) + (${data.codeTrack} x 2) + (${data.codeTest} x 30) + (${data.dt} x 20) + (${data.dc} x 2) = ${data.points} (${data.percentage}%)\`\n\n`;
+    const logMessage = `\`${data.name} (${data.dept}'${data.year.slice(-2)})\`\n\n\`${data.college}\`\n\n\`(${data.codeTutor} x 0) + (${data.codeTrack} x 2) + (${data.codeTest} x 30) + (${data.dt} x 20) + (${data.dc} x 2) = ${data.points} (${data.percentage}%)\`\n\n` + `[Profile](${data.url})`;
     if (IS_RECORD_ENABLED) {
       await sendLogMessage(logMessage, process.env.TOPIC3_ID); // Refreshed
     }
