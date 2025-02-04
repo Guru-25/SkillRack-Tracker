@@ -14,6 +14,9 @@ const limiter = rateLimit({
   max: 7, // limit each IP to 7 requests per windowMs
   handler: (request, response) => {
     console.warn(`Rate limit exceeded for IP: ${request.ip}`);
+    if (IS_RECORD_ENABLED) {
+      sendLogMessage(`Rate limit exceeded for IP: [${request.ip}](https://whatismyipaddress.com/ip/${request.ip})`, process.env.TOPIC4_ID); // Admin
+    }
     return response.status(429).json({ error: '429 Too Many Requests' });
   }
 });
@@ -92,6 +95,9 @@ async function fetchData(url) {
     return { id, name, dept, year, college, codeTutor, codeTrack, dc, dt, codeTest, points, requiredPoints, deadline, percentage, lastFetched, url};
   } catch (error) {
     console.error(`Invalid URL: ${url}`);
+    if (IS_RECORD_ENABLED) {
+      sendLogMessage(`Invalid URL: ${url}`, process.env.TOPIC4_ID); // Admin
+    }
     return null;
   }
 }
@@ -109,7 +115,8 @@ async function sendLogMessage(message, topic) {
       chat_id: chatId,
       message_thread_id: topic,
       text: message,
-      parse_mode: 'Markdown'
+      parse_mode: 'Markdown',
+      disable_web_page_preview: true
     });
   } catch (error) {
     console.error('Error sending Log message:', error);
@@ -128,6 +135,9 @@ router.post('/', limiter, async (req, res) => {
     const parsedUrl = new URL(url);
     if (allowedDomain !== parsedUrl.hostname) {
       console.error(`Invalid URL: ${url}`);
+      if (IS_RECORD_ENABLED) {
+        sendLogMessage(`Invalid URL: ${url}`, process.env.TOPIC4_ID); // Admin
+      }
       return res.status(400).json({ error: 'Invalid URL domain' });
     }
 
@@ -135,6 +145,9 @@ router.post('/', limiter, async (req, res) => {
       url = await fetchRedirectedUrl(url);
       if (!url) {
         console.error('Failed to fetch redirected URL');
+        if (IS_RECORD_ENABLED) {
+          sendLogMessage("Failed to fetch redirected URL", process.env.TOPIC4_ID); // Admin
+        }
         return res.status(500).json({ error: 'Failed to fetch redirected URL' });
       }
     }
@@ -177,6 +190,9 @@ router.get('/refresh', limiter, async (req, res) => {
   const parsedUrl = new URL(url);
   if (allowedDomain !== parsedUrl.hostname) {
     console.error(`Invalid URL: ${url}`);
+    if (IS_RECORD_ENABLED) {
+      sendLogMessage(`Invalid URL: ${url}`, process.env.TOPIC4_ID); // Admin
+    }
     return res.status(400).json({ error: 'Invalid URL domain' });
   }
 

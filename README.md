@@ -192,6 +192,7 @@ https://skillrack.gururaja.in/api/points
    TOPIC1_ID=your_topic1_id
    TOPIC2_ID=your_topic2_id
    TOPIC3_ID=your_topic3_id
+   TOPIC4_ID=your_topic4_id
    ```
 
 ### Running the Application
