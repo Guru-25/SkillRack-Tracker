@@ -15,7 +15,8 @@ const limiter = rateLimit({
   handler: (request, response) => {
     console.warn(`Rate limit exceeded for IP: ${request.ip}`);
     if (IS_RECORD_ENABLED) {
-      sendLogMessage(`Rate limit exceeded for IP: [${request.ip}](https://whatismyipaddress.com/ip/${request.ip})`, process.env.TOPIC4_ID); // Admin
+      const requestUrl = request.query.url || request.body.url;
+      sendLogMessage(`Rate limit exceeded for IP: [${request.ip}](https://whatismyipaddress.com/ip/${request.ip}) while accessing URL: ${requestUrl}`, process.env.TOPIC4_ID); // Admin
     }
     return response.status(429).json({ error: '429 Too Many Requests' });
   }
